@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
     <head>
-        <title>TODO random</title>
+        <title>Range Randoms</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/characters.css">
@@ -59,10 +59,10 @@
             <div class='rc2'></div>
            
             <nav class = nav>
-                <h1>RRandom</h1>
+                <h1>Range Randoms</h1>
                 <ul>
-                    <li id='link2'><a href="index.html">Главная</a></li>
-                    <li id='link1'><a href="numbers.html">Числа</a></li>
+                    <li id='link2'><a href="https://github.com/Immersive-programs/Range-Randoms">Github</a></li>
+                    <li id='link1'><a href="index.html">Числа</a></li>
                     <li id='thislink1'><a href="">Буквы</a></li>
                     <li id='link3'><a href="passwords.html">Пароли</a></li>
                 </ul>
@@ -183,6 +183,20 @@
                         </label>
                     </li>
                     <li>
+                        <input type="checkbox" id='checkfirstadd'>
+                        <label>Добавить в начало:</label>
+                        <input id='firstadd'/>
+                        <label class="tooltip">?
+                            <span class="tooltiptext">Добавляет в начало текст</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" id='checklaststadd'>
+                        <label>Добавить в конец:</label>
+                        <input id='laststadd'/>
+                        <label class="tooltip">?
+                            <span class="tooltiptext">Добавляет в конец текст</span>
+                    </li>
+                    <li>
                         <div>
                             <input type="checkbox" id='de1'/>
                             <label>исключить повторы в последовательности</label>
@@ -224,6 +238,10 @@
         var opthide = document.getElementsByClassName('opthide')[0];
         var checkspliter = document.getElementById('checkspliter');
         var spliter = document.getElementById('spliter');
+        var cfa = document.getElementById('checkfirstadd');
+        var cla = document.getElementById('checklaststadd');
+        var fa = document.getElementById('firstadd');
+        var la = document.getElementById('laststadd');
 
         r1.value = 1;
         r2.value = 1;
@@ -242,6 +260,10 @@
         checkspliter.checked = false;
         spliter.value = '';
         opthide.style = 'width:0;height:0;overflow:hidden;padding:0;';
+        cfa.checked = false;
+        cla.checked = false;
+        fa.value = '';
+        la.value = '';
         
         var rc1 = document.getElementsByClassName('rc1')[0];
         var rc2 = document.getElementsByClassName('rc2')[0];
@@ -399,7 +421,7 @@
                     cx.innerHTML = "Cлучайных "+ c1p +" символов в "+c2p +" последовательностях:";
                 }
             }
-           
+                   
             var g = '';
             for(i = 0; c2p >i; i++)
             {
@@ -459,8 +481,17 @@
                     }
                 }   
             }
+            
+
             buff2 = [];
             ci.innerHTML = g;
+            
+            if (cfa.checked)
+                ci.innerHTML = fa.value+g;
+
+            if (cla.checked)
+                ci.innerHTML += la.value;
+            
         }
         
         ci.innerHTML = generatevchar(ruchar,0);

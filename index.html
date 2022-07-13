@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ru">
     <head>
-        <title>TODO random</title>
+        <title>Range Randoms</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/indexstyle.css">
+        <link rel="stylesheet" href="css/index.css">
     </head>
     <body>
         <div>
@@ -59,14 +59,409 @@
             <div class='rc2'></div>
            
             <nav class = nav>
-                <h1>TODO</h1>
+                <h1>Range Randoms</h1>
                 <ul>
-                    <li id='thislink1'><a href="index.html">Главная</a></li>
-                    <li id='link1'><a href="numbers.html">Числа</a></li>
-                    <li id='link2'><a href="characters.html">Буквы</a></li>
+                    <li id='link2'><a href="https://github.com/Immersive-programs/Range-Randoms">Github</a></li>
+                    <li id='thislink1'><a href="">Числа</a></li>
+                    <li id='link1'><a href="characters.html">Буквы</a></li>
                     <li id='link3'><a href="passwords.html">Пароли</a></li>
                 </ul>
             </nav>
+            <article>
+                <h2 id = 'cx'>Случайное число:</h2>
+                <button id='copygen' onclick = "copygen()"></button>
+                <h3 id = 'ci'></h3>
+                <button id = 'button' onclick = "clicked()" > Генерация!</button>
+                <ul class='random_options'>
+                    <li><label>Настройки:</label></li>
+                    <li>
+                        <input type="range" id='range' oninput="rangeedit()" min="1" max="100" step="1" value="1">
+                        <div class='countdiv'>
+                            <input id='countr' onkeyup="this.value = this.value.replace(/[^\d]/g,'')" oninput="editrange()"/>
+                            <label id='countrl'> число будет создано</label>
+                            <label class="tooltip">?
+                                <span class="tooltiptext">Значение определяет количество создаваемых чисел</span>
+                            </label>
+                        </div>
+                    </li>
+                    <li id='rangel'>
+                        <label>Диапазон от</label>
+                        <input id='startrange' onkeyup="this.value = this.value.replace(/[^\d]/g,'')"/>
+                        <label>до</label>
+                        <input id='stoprange' onkeyup="this.value = this.value.replace(/[^\d]/g,'')"/>
+                        <label class="tooltip">?
+                                <span class="tooltiptext">Значение определяет минимально и максимально возможные числа при создании</span>
+                        </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id='checkspliter'>
+                        <label>Разделитель:</label>
+                        <input id='spliter'/>
+                        <label class="tooltip">?
+                            <span class="tooltiptext">Значение заменяет отступы между числами (пример:' ' ',' ';' 'abc')</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" id='checkfirstadd'>
+                        <label>Добавить в начало:</label>
+                        <input id='firstadd'/>
+                        <label class="tooltip">?
+                            <span class="tooltiptext"></span>
+                    </li>
+                    <li>
+                        <input type="checkbox" id='checklaststadd'>
+                        <label>Добавить в конец:</label>
+                        <input id='laststadd'/>
+                        <label class="tooltip">?
+                            <span class="tooltiptext"></span>
+                    </li>
+                    <li>
+                        <input type="checkbox" id='norepeat'>
+                        <label>Исключить повторы</label>
+                        <label class="tooltip">?
+                                <span class="tooltiptext">При создании чисел будут исключаться уже использованные</span>
+                    </li>
+                    <li id='doublel' >
+                        <input type="checkbox" id='doublemode'/>
+                        <label>Числа с плавающей точкой до </label>
+                        <input id='doublecount' maxlength='2' onkeyup="this.minusper = this.value.replace(/[^\d]/g,'')"/>
+                        <label>долей</label>
+                        <label class="tooltip">?
+                            <span class="tooltiptext">Значение определяет количество знаков после целой части</span>
+                    </li>
+                    
+                    <li id='minusperl1' >
+                        <input type="checkbox" id='checkminusper' name="double"/>
+                        <label>Шанс содать отрицательное число</label>
+                        <input id='minusper' disabled='true'/>
+                        <label>%</label>
+                    </li>
+                    <li id='minusperl2' >
+                        <input type="range" id='rngm' oninput="document.getElementById('minusper').value = this.value" min="0" max="100" step="1" value="50">
+                        <label class="tooltip">?
+                            <span class="tooltiptext">Значение определяет шанс создания отрицательного числа</span>
+                    </li>
+                    
+                    <li>
+                        <input type="checkbox" onclick="checklistclick()" id="islist" name="lists" value="yes">
+                        <label for="list">Режим списка</label>
+                        <label class="tooltip">?
+                            <span class="tooltiptext">Заменяет параметры создания на пользовательский список чисел</span>
+                    </li>
+                    <li style="margin-right: 10px"><textarea id="list"/></textarea></li>
+                </ul>
+            </article>
         </div>
     </body>
+    <script type="text/javascript">
+        var r = document.getElementById('range');
+        var c = document.getElementById('countr');
+        var d = document.getElementById('doublecount');
+        var str = document.getElementById('startrange');
+        var stp = document.getElementById('stoprange');
+        var il = document.getElementById('islist');
+        var dm = document.getElementById('doublemode')
+        var l = document.getElementById('list');
+        var ci = document.getElementById('ci');
+        var sp = document.getElementById('spliter');
+        var csp = document.getElementById('checkspliter');
+        var ms = document.getElementById('minusper');
+        var rngm = document.getElementById('rngm');
+        var cms = document.getElementById('checkminusper');
+        var nr = document.getElementById('norepeat');
+        var cfa = document.getElementById('checkfirstadd');
+        var cla = document.getElementById('checklaststadd');
+        var fa = document.getElementById('firstadd');
+        var la = document.getElementById('laststadd');
+        
+        c.value = 1;
+        r.value = 1;
+        d.value = 3;
+        str.value = 0;
+        stp.value = 100;
+        il.checked = false;
+        dm.checked = false;
+        l.value = '';
+        l.hidden = true;
+        ci.innerHTML = generatenuber(0,100,0);
+        sp.value = '';
+        csp.checked = false;
+        ms.value = '50';
+        rngm.value = '50';
+        cms.checked = false;
+        nr.checked = false;
+        cfa.checked = false;
+        cla.checked = false;
+        fa.value = '';
+        la.value = '';
+        
+        var rc1 = document.getElementsByClassName('rc1')[0];
+        var rc2 = document.getElementsByClassName('rc2')[0];
+        
+        for (j = 0; 30 > j; j++)
+        {
+            var p = document.createElement('p');
+            p.innerText = Math.floor(Math.random()*10);
+            s = Math.floor((Math.random()*(40-20))+20)+'px';
+            m = Math.floor((Math.random()*(100-50))+50)+'px';
+            t = Math.floor(Math.random()*20)+'deg';
+            c = '';
+            a = '';
+            
+            if (Math.random() < 0.5){
+                t = '-'+t;
+            }
+            
+            switch(Math.floor(Math.random()*3))
+            {
+                case 0: 
+                    a = 'left';
+                    break;
+                case 1: 
+                    a = 'center';
+                    break;
+                case 2: 
+                    a = 'right';
+                    break;
+            }
+            
+            switch(Math.floor(Math.random()*5))
+            {
+                case 0: 
+                    c = 'white';
+                    break;
+                case 1: 
+                    c = 'gray';
+                    break;
+                case 2: 
+                    c = '#9999ff';
+                    break;
+                case 3: 
+                    c = 'purple';
+                    break;
+                case 4: 
+                    c = 'cyan';
+                    break;
+                case 5: 
+                    c = 'greenyellow';
+                    break;
+            }
+            p.style.cssText = 'font-size:'+s+';text-align:'+a+';height: '+m+'; transform: rotate('+t+'); color:'+c;
+           
+            if (j < 15)
+            {
+                rc1.appendChild(p);
+            }
+            else
+            {
+                rc2.appendChild(p);
+            }
+            
+        }
+        
+        function checklistclick()
+        {
+            var rl = document.getElementById('rangel');
+            var dl = document.getElementById('doublel');
+            var msl1 = document.getElementById('minusperl1');
+            var msl2 = document.getElementById('minusperl2');
+            if (il.checked)
+            {
+                l.hidden = false;
+                rl.hidden = true;
+                dl.hidden = true;
+                msl1.hidden = true;
+                msl2.hidden = true;
+            }
+            else
+            {
+                l.hidden = true;
+                rl.hidden = false;
+                dl.hidden = false;
+                msl1.hidden = false;
+                msl2.hidden = false;
+            }  
+        }
+        
+        function rangeedit()
+        {
+            var r = document.getElementById('range');
+            var c = document.getElementById('countr');
+            c.value = r.value;
+            
+            if (c.value > 1)
+                document.getElementById('countrl').innerHTML = " чисел будет создано";
+            else
+                document.getElementById('countrl').innerHTML = " число будет создано";
+        }
+        
+        function editrange()
+        {
+            var r = document.getElementById('range');
+            var c = document.getElementById('countr');
+            r.value = c.value.replace(/[^\d]/g,'');
+            
+            if (c.value > 1)
+                document.getElementById('countrl').innerHTML = " чисел будет создано";
+            else
+                document.getElementById('countrl').innerHTML = " число будет создано";
+        }
+        
+        function clicked()
+        {
+            var c = document.getElementById('countr');
+            var str = document.getElementById('startrange');
+            var stp = document.getElementById('stoprange');
+            var il = document.getElementById('islist');
+            var d = document.getElementById('doublecount');
+            var dm = document.getElementById('doublemode')
+            var l = document.getElementById('list');
+            var sp = document.getElementById('spliter');
+            var csp = document.getElementById('checkspliter');
+            var ms = document.getElementById('minusper');
+            var cms = document.getElementById('checkminusper');
+            var nr = document.getElementById('norepeat');
+            var cfa = document.getElementById('checkfirstadd');
+            var cla = document.getElementById('checklaststadd');
+            var fa = document.getElementById('firstadd');
+            var la = document.getElementById('laststadd');
+
+            ci.innerHTML = "";
+            
+            if (cfa.checked)
+                ci.innerHTML += fa.value;
+                
+            if (c.value > 1)
+                 cx.innerHTML = "Случайные числа:";
+            else
+                cx.innerHTML = "Случайное число:";
+
+             if (il.checked)
+             {
+                 var buff = [];
+                 let text = l.value;
+                 text = text.replace(/[^\d]/g,' ');
+                 var arr = text.split(' ');
+                 var spliter = ' ';
+                 if (csp.checked && sp.value != '')
+                       spliter = sp.value;
+                 for(k = 0;  c.value > k; k++) 
+                 {
+                      var g = arr[Math.floor(Math.random() * arr.length)];
+                      if (buff.filter(co => co == g).length == 0 || !nr.checked)
+                      {
+                          buff.push(g);
+                          ci.innerHTML += g;
+                              if (c.value > k+1)
+                                  ci.innerHTML += spliter;
+                      }
+
+                 }
+            }
+            else 
+            {      
+                var buff = [];
+                var maxdoublevalue = 0
+                var stopvalue = stp.value;
+                var startvalue = str.value;
+                var spliter = ' ';
+                var count = c.value;
+                if (csp.checked && sp.value != '')
+                     spliter = sp.value;
+
+                var maxnonrep = stp.value-str.value;
+                if (nr.checked)
+                {
+                    if (cms.checked && ms.value > 1 && ms.value < 100)
+                    {
+                        maxnonrep = 2 * maxnonrep;
+                    }
+
+                    if (dm.checked)
+                    {
+                        maxnonrep = (maxnonrep*10**d.value);
+                    }
+
+                    maxnonrep = 1 + maxnonrep;
+
+                    if (count > maxnonrep) 
+                    {
+                        cx.innerHTML = maxnonrep + " возможных чисел:";
+                        count = maxnonrep
+                    }
+                }
+
+                for(k = 0;  count > k; k++) {
+                    if (dm.checked) 
+                    {
+                         maxdoublevalue = d.value;
+                    }
+                    if (nr.checked)
+                    {
+                        var gen = generatenuber(startvalue,stopvalue,maxdoublevalue);
+
+                        if (cms.checked)
+                        {
+                            if (Math.random() < ms.value/100)
+                             gen = -1 * gen;
+                        }
+
+                        if (buff.filter(co => co == gen).length > 0)
+                        {
+                            k--;
+                        }
+                        else
+                        {
+                            buff.push(gen);
+                            ci.innerHTML += gen;
+                            if (count > k+1)
+                                ci.innerHTML += spliter;
+                        }
+                    }
+                    else 
+                    {
+                        if (cms.checked)
+                        {
+                            if (Math.random() < ms.value/100)
+                                ci.innerHTML += '-';
+                        }
+                        if (stopvalue-str.value > 0) 
+                        {
+                            ci.innerHTML += generatenuber(startvalue,stopvalue,maxdoublevalue);
+                            if (count > k+1)
+                                ci.innerHTML += spliter;
+                        }
+                        else
+                            ci.innerHTML += stopvalue;
+                    }
+                }
+            }
+            if (cla.checked)
+                ci.innerHTML += la.value;
+        }
+        
+        function generatenuber(min,max,maxdouble)
+        {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+
+            var g = (Math.random() * (max - min)) + min;
+            g = Math.round(g);
+            if (maxdouble != 0 && g != max)
+            {   g = g+'.';
+                for (i = 0; maxdouble > i; i++)
+                g += ''+Math.floor(Math.random()*10);
+            }
+            return ''+g;
+        }
+        
+        function copygen()
+        {
+            const elem = document.createElement('textarea');
+            elem.value = ci.innerHTML;
+            document.body.appendChild(elem);
+            elem.select();
+            document.execCommand('copy');
+            document.body.removeChild(elem);
+        }
+    </script>
 </html>
